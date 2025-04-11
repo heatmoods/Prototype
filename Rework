@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>To-Go Healthy Meals - Multipage Prototype</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    header, nav, .container {
+      max-width: 900px;
+      margin: auto;
+    }
+    header {
+      background: #4CAF50;
+      color: #fff;
+      padding: 15px 20px;
+      text-align: center;
+    }
+    nav {
+      background: #333;
+      overflow: hidden;
+      margin-top: 10px;
+    }
+    nav a {
+      float: left;
+      display: block;
+      color: #fff;
+      text-align: center;
+      padding: 12px 16px;
+      text-decoration: none;
+    }
+    nav a:hover {
+      background-color: #575757;
+    }
+    .container {
+      padding: 20px;
+      background: #fff;
+      margin-top: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px #ccc;
+      min-height: 400px;
+    }
+    .page { display: none; }
+    .active { display: block; }
+    h2 { border-bottom: 2px solid #4CAF50; padding-bottom: 5px; }
+    .btn {
+      background: #4CAF50;
+      color: #fff;
+      padding: 8px 16px;
+      margin-top: 10px;
+      text-decoration: none;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    .btn:hover { background: #45a049; }
+    form label {
+      display: block;
+      margin-top: 10px;
+    }
+    form input[type="text"],
+    form input[type="password"],
+    form input[type="email"],
+    form select,
+    form textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    form input[type="submit"] {
+      margin-top: 15px;
+      padding: 10px;
+      background: #4CAF50;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    form input[type="submit"]:hover { background: #45a049; }
+    .product {
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 10px;
+      display: flex;
+      margin-bottom: 15px;
+      background: #fafafa;
+    }
+    .product img {
+      width: 150px;
+      height: 100px;
+      margin-right: 15px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+    .product-info { flex: 1; }
+  </style>
+  <script>
+    // Utility function to hide all pages and show one specified page ID.
+    function showPage(pageID) {
+      const pages = document.querySelectorAll('.page');
+      pages.forEach(page => page.classList.remove('active'));
+      document.getElementById(pageID).classList.add('active');
+      
+      // Optional: Clear any form messages if needed
+    }
+
+    // Simulate login – in a real application, validate credentials.
+    function login(event) {
+      event.preventDefault();
+      // For this prototype, simply go to the dashboard.
+      showPage('page-dashboard');
+    }
+
+    // Navigation functions for dashboard links.
+    function goToDashboard() { showPage('page-dashboard'); }
+    function goToCatalog()     { showPage('page-catalog'); }
+    function goToCart()        { showPage('page-cart'); }
+    function goToPayment()     { showPage('page-payment'); }
+    function goToOrderTrack()  { showPage('page-ordertracking'); }
+    function logout()          { showPage('page-login'); }
+
+    // Dummy functions for adding to cart and tracking orders.
+    function addToCart(productId) {
+      alert('Product ' + productId + ' added to cart!');
+    }
+    
+    // Payment method show/hide
+    function updatePaymentInfo() {
+      var method = document.getElementById('payment-method').value;
+      var cardDetails = document.getElementById('card-details');
+      if (method === 'credit') {
+        cardDetails.style.display = 'block';
+      } else {
+        cardDetails.style.display = 'none';
+      }
+    }
+    
+    window.addEventListener('DOMContentLoaded', function() {
+      // On page load, show login page.
+      showPage('page-login');
+    });
+  </script>
+</head>
+<body>
+
+  <!-- Login Page -->
+  <div id="page-login" class="page">
+    <div class="container">
+      <h2>Login</h2>
+      <form onsubmit="login(event);">
+        <label for="userType">I am a:</label>
+        <select id="userType" name="userType" required>
+          <option value="">-- Select --</option>
+          <option value="customer">Customer</option>
+          <option value="employee">Employee</option>
+        </select>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <input type="submit" value="Log In">
+      </form>
+    </div>
+  </div>
+
+  <!-- Dashboard Page -->
+  <div id="page-dashboard" class="page">
+    <header>
+      <h1>To-Go Healthy Meals</h1>
+    </header>
+    <nav>
+      <a href="#" onclick="goToCatalog();">Meal Catalog</a>
+      <a href="#" onclick="goToCart();">Your Cart</a>
+      <a href="#" onclick="goToPayment();">Payment</a>
+      <a href="#" onclick="goToOrderTrack();">Track Orders</a>
+      <a href="#" onclick="logout();">Log Out</a>
+    </nav>
+    <div class="container">
+      <h2>Welcome to Your Dashboard</h2>
+      <p>Select an option from the navigation menu to order meals, check your cart, or track orders.</p>
+    </div>
+  </div>
+
+  <!-- Meal Catalog Page -->
+  <div id="page-catalog" class="page">
+    <header>
+      <h1>Meal Catalog</h1>
+    </header>
+    <nav>
+      <a href="#" onclick="goToDashboard();">Dashboard</a>
+      <a href="#" onclick="goToCart();">Cart</a>
+      <a href="#" onclick="goToOrderTrack();">Track Orders</a>
+      <a href="#" onclick="logout();">Log Out</a>
+    </nav>
+    <div class="container">
+      <h2>Browse Our Healthy Meals</h2>
+      <div class="product">
+        <img src="https://via.placeholder.com/150" alt="Fresh Garden Salad">
+        <div class="product-info">
+          <h3>Fresh Garden Salad</h3>
+          <p>Mixed greens, cherry tomatoes, and a light vinaigrette.</p>
+          <p>Price: $8.99</p>
+          <button class="btn" onclick="addToCart(1);">Add to Cart</button>
+        </div>
+      </div>
+      <div class="product">
+        <img src="https://via.placeholder.com/150" alt="Grilled Chicken Bowl">
+        <div class="product-info">
+          <h3>Grilled Chicken Bowl</h3>
+          <p>Grilled chicken over brown rice with steamed veggies.</p>
+          <p>Price: $12.50</p>
+          <button class="btn" onclick="addToCart(2);">Add to Cart</button>
+        </div>
+      </div>
+      <!-- More products can be added similarly -->
+    </div>
+  </div>
+
+  <!-- Cart Page -->
+  <div id="page-cart" class="page">
+    <header>
+      <h1>Your Cart</h1>
+    </header>
+    <nav>
+      <a href="#" onclick="goToDashboard();">Dashboard</a>
+      <a href="#" onclick="goToCatalog();">Meal Catalog</a>
+      <a href="#" onclick="goToPayment();">Payment</a>
+      <a href="#" onclick="goToOrderTrack();">Track Orders</a>
+      <a href="#" onclick="logout();">Log Out</a>
+    </nav>
+    <div class="container">
+      <h2>Items in Your Cart</h2>
+      <div class="cart-item">
+        <p><strong>Fresh Garden Salad</strong> - $8.99 x 1</p>
+      </div>
+      <div class="cart-item">
+        <p><strong>Grilled Chicken Bowl</strong> - $12.50 x 2</p>
+      </div>
+      <p><strong>Total: $33.99</strong></p>
+      <button class="btn" onclick="goToPayment();">Proceed to Payment</button>
+    </div>
+  </div>
+
+  <!-- Payment Page -->
+  <div id="page-payment" class="page">
+    <header>
+      <h1>Payment</h1>
+    </header>
+    <nav>
+      <a href="#" onclick="goToDashboard();">Dashboard</a>
+      <a href="#" onclick="goToCatalog();">Meal Catalog</a>
+      <a href="#" onclick="goToCart();">Cart</a>
+      <a href="#" onclick="goToOrderTrack();">Track Orders</a>
+      <a href="#" onclick="logout();">Log Out</a>
+    </nav>
+    <div class="container">
+      <h2>Select Payment Method</h2>
+      <form onsubmit="alert('Payment submitted! Order placed.'); showPage('page-ordertracking'); return false;">
+        <label for="payment-method">Payment Method:</label>
+        <select id="payment-method" name="paymentMethod" onchange="updatePaymentInfo();" required>
+          <option value="">-- Select --</option>
+          <option value="credit">Credit/Debit Card</option>
+          <option value="paypal">PayPal</option>
+          <option value="cash">Cash (In-store Pickup)</option>
+        </select>
+        <div id="card-details" style="display:none;">
+          <label for="card-number">Card Number:</label>
+          <input type="text" id="card-number" name="cardNumber" placeholder="Enter card number">
+        </div>
+        <input type="submit" value="Submit Payment">
+      </form>
+    </div>
+  </div>
+
+  <!-- Order Tracking Page -->
+  <div id="page-ordertracking" class="page">
+    <header>
+      <h1>Order Tracking</h1>
+    </header>
+    <nav>
+      <a href="#" onclick="goToDashboard();">Dashboard</a>
+      <a href="#" onclick="goToCatalog();">Meal Catalog</a>
+      <a href="#" onclick="goToCart();">Cart</a>
+      <a href="#" onclick="goToPayment();">Payment</a>
+      <a href="#" onclick="logout();">Log Out</a>
+    </nav>
+    <div class="container">
+      <h2>Track Your Order</h2>
+      <p>Enter your Order ID to view the status of your order.</p>
+      <form onsubmit="alert('Order 123456 is in transit. Estimated delivery: 30 minutes.'); return false;">
+        <label for="order-id">Order ID:</label>
+        <input type="text" id="order-id" name="orderId" placeholder="Enter Order ID" required>
+        <input type="submit" value="Track Order" class="btn">
+      </form>
+      <div id="order-status" style="margin-top: 20px;">
+        <!-- In a real app, order status would be shown dynamically -->
+        <h3>Order Status: In Transit</h3>
+        <p>Estimated delivery: 30 minutes</p>
+        <p>Tracking number: 1234567890</p>
+      </div>
+    </div>
+  </div>
+  
+</body>
+</html>
