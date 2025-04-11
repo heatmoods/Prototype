@@ -1,0 +1,220 @@
+/* Custom styles for To-Go Healthy Meals application */
+
+/* Colors */
+:root {
+    --primary-color: #4CAF50;
+    --primary-dark: #388e3c;
+    --primary-light: #66bb6a;
+    --accent-color: #ff9800;
+    --text-color: #333;
+    --text-light: #767676;
+    --bg-light: #f9f9f9;
+    --border-color: #e0e0e0;
+}
+
+/* General styles */
+body {
+    color: var(--text-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+}
+
+.navbar-dark.bg-primary {
+    background-color: var(--primary-color) !important;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+}
+
+.btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.card {
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-color);
+}
+
+.card-header.bg-primary {
+    background-color: var(--primary-color) !important;
+}
+
+/* Specific component styles */
+
+/* Product cards */
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.price {
+    font-weight: bold;
+    color: var(--primary-color);
+    font-size: 1.2rem;
+}
+
+/* 
+                        <li><a href="/" class="text-white">Dashboard</a></li> page */
+.hero-section {
+    padding: 60px 0;
+    background-color: #f8f9fa;
+}
+
+.icon-circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--primary-light);
+    color: white;
+}
+
+/* Product detail page */
+.product-img {
+    max-height: 400px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.price-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.price-label {
+    font-size: 1.2rem;
+}
+
+/* Cart page */
+.cart-item-img {
+    border-radius: 4px;
+}
+
+/* Checkout page */
+.checkout-summary {
+    position: sticky;
+    top: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+    .button-group {
+        flex-direction: column;
+    }
+    
+    .product-img {
+        max-height: 300px;
+    }
+    
+    .hero-section {
+        text-align: center;
+        padding: 40px 0;
+    }
+}
+
+/* Inventory and employee pages */
+.inventory-badge {
+    font-size: 0.8rem;
+    padding: 0.25em 0.6em;
+}
+
+.low-stock {
+    background-color: #f44336;
+    color: white;
+}
+
+.schedule-card {
+    border-left: 4px solid var(--primary-color);
+}
+
+/* Animation for card hover */
+.card {
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer styling */
+footer {
+    margin-top: auto;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Product filtering */
+.list-group-item.active {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* Order status badges */
+.badge.bg-success, 
+.badge.bg-primary,
+.badge.bg-info,
+.badge.bg-warning,
+.badge.bg-danger {
+    font-weight: normal;
+    padding: 0.4em 0.6em;
+}
+
+/* Breadcrumb styling */
+.breadcrumb {
+    background-color: transparent;
+    padding: 0.75rem 0;
+}
+
+.breadcrumb-item a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.breadcrumb-item a:hover {
+    text-decoration: underline;
+}
+
+/* Login form styling */
+.login-form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Order accordion items */
+.accordion-button:not(.collapsed) {
+    background-color: rgba(76, 175, 80, 0.1);
+    color: var(--primary-color);
+}
+
+.accordion-button:focus {
+    box-shadow: 0 0 0 0.25rem rgba(76, 175, 80, 0.25);
+}
+
+/* Custom styles for inputs */
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(76, 175, 80, 0.25);
+} 
