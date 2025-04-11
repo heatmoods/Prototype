@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>To-Go Healthy Meals - Online Ordering</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f5f5f5;
+    }
+    header {
+      background: #4CAF50;
+      color: #fff;
+      padding: 15px 20px;
+      text-align: center;
+    }
+    nav {
+      background: #333;
+      overflow: hidden;
+    }
+    nav a {
+      float: left;
+      display: block;
+      color: #fff;
+      text-align: center;
+      padding: 12px 16px;
+      text-decoration: none;
+    }
+    nav a:hover {
+      background-color: #575757;
+    }
+    .container {
+      width: 90%;
+      margin: auto;
+      overflow: hidden;
+      padding: 20px;
+      background: #fff;
+      margin-top: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px #ccc;
+    }
+    h2 {
+      border-bottom: 2px solid #4CAF50;
+      padding-bottom: 5px;
+    }
+    .product {
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      background: #fafafa;
+    }
+    .product img {
+      width: 150px;
+      height: 100px;
+      margin-right: 15px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+    .product-info {
+      flex: 1;
+    }
+    .product-info h3 {
+      margin: 0;
+    }
+    .btn {
+      background: #4CAF50;
+      color: #fff;
+      padding: 8px 16px;
+      text-decoration: none;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background: #45a049;
+    }
+    form {
+      margin-top: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    input[type="submit"] {
+      margin-top: 15px;
+      width: auto;
+    }
+    .cart-summary {
+      border: 1px solid #ddd;
+      padding: 15px;
+      border-radius: 5px;
+      background: #fdfdfd;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>To-Go Healthy Meals</h1>
+    <p>Your destination for nutritious and delicious meals</p>
+  </header>
+
+  <nav>
+    <a href="#products">Products</a>
+    <a href="#cart">Cart</a>
+    <a href="#checkout">Checkout</a>
+    <a href="#contact">Customer Service</a>
+  </nav>
+
+  <!-- Product Browsing Section -->
+  <div class="container" id="products">
+    <h2>Browse Our Healthy Meals</h2>
+    <!-- Example Product 1 -->
+    <div class="product">
+      <img src="https://via.placeholder.com/150" alt="Healthy Salad">
+      <div class="product-info">
+        <h3>Fresh Garden Salad</h3>
+        <p>A delicious salad with mixed greens, cherry tomatoes, and a light vinaigrette.</p>
+        <p>Price: $8.99</p>
+        <p>Availability: In Stock</p>
+        <button class="btn" onclick="addToCart(1)">Add to Cart</button>
+      </div>
+    </div>
+    <!-- Example Product 2 -->
+    <div class="product">
+      <img src="https://via.placeholder.com/150" alt="Grilled Chicken Bowl">
+      <div class="product-info">
+        <h3>Grilled Chicken Bowl</h3>
+        <p>Grilled chicken served over brown rice with steamed vegetables and teriyaki sauce.</p>
+        <p>Price: $12.50</p>
+        <p>Availability: In Stock</p>
+        <button class="btn" onclick="addToCart(2)">Add to Cart</button>
+      </div>
+    </div>
+    <!-- Add more products as needed -->
+  </div>
+
+  <!-- Shopping Cart Summary Section -->
+  <div class="container" id="cart">
+    <h2>Your Shopping Cart</h2>
+    <div class="cart-summary">
+      <p id="cart-items">Your cart is empty.</p>
+      <button class="btn" onclick="goToCheckout()">Proceed to Checkout</button>
+    </div>
+  </div>
+
+  <!-- Checkout Section with Delivery & Payment Options -->
+  <div class="container" id="checkout">
+    <h2>Checkout</h2>
+    <form id="checkout-form">
+      <h3>Delivery Options</h3>
+      <label for="delivery-type">Select Delivery Option:</label>
+      <select id="delivery-type" name="deliveryType" required>
+        <option value="">-- Select --</option>
+        <option value="in-store">In-store Pickup</option>
+        <option value="grubhub">Delivery via Grubhub</option>
+        <option value="doordash">Delivery via DoorDash</option>
+        <option value="ubereats">Delivery via Uber Eats</option>
+      </select>
+      
+      <label for="delivery-details">Delivery Details (Cost and Estimated Time will be determined at checkout):</label>
+      <input type="text" id="delivery-details" name="deliveryDetails" placeholder="e.g., $5.00, 45 minutes" readonly>
+      
+      <h3>Payment Options</h3>
+      <label for="payment-method">Select Payment Method:</label>
+      <select id="payment-method" name="paymentMethod" required>
+        <option value="">-- Select --</option>
+        <option value="credit">Credit/Debit Card</option>
+        <option value="paypal">PayPal</option>
+        <option value="cash">Cash (for in-store pickup)</option>
+      </select>
+      
+      <div id="payment-info">
+        <!-- Payment details would be dynamically shown based on payment method -->
+        <label for="card-number">Card Number:</label>
+        <input type="text" id="card-number" name="cardNumber" placeholder="Enter card number">
+        <!-- Additional card info fields can be added here -->
+      </div>
+      
+      <input type="submit" class="btn" value="Place Order">
+    </form>
+  </div>
+
+  <!-- Customer Service / Contact Form Section -->
+  <div class="container" id="contact">
+    <h2>Contact Customer Service</h2>
+    <form id="contact-form">
+      <label for="customer-name">Name:</label>
+      <input type="text" id="customer-name" name="customerName" required>
+      
+      <label for="customer-email">Email:</label>
+      <input type="email" id="customer-email" name="customerEmail" required>
+      
+      <label for="message">Message:</label>
+      <textarea id="message" name="message" rows="4" required></textarea>
+      
+      <input type="submit" class="btn" value="Send Message">
+    </form>
+  </div>
+
+  <footer style="background:#333; color:#fff; text-align:center; padding:10px 0; margin-top:20px;">
+    &copy; 2025 To-Go Healthy Meals
+  </footer>
+
+  <script>
+    // For demo purposes, a simple cart simulator
+    let cart = [];
+
+    function addToCart(productId) {
+      // This simple demo adds productId to the cart array
+      cart.push(productId);
+      document.getElementById('cart-items').innerText = `Items in cart: ${cart.join(', ')}`;
+      alert('Product added to cart!');
+    }
+
+    function goToCheckout() {
+      window.location.href = "#checkout";
+    }
+    
+    // Delivery selection example: Update delivery details based on chosen option
+    document.getElementById('delivery-type').addEventListener('change', function(){
+      const deliveryType = this.value;
+      let details = "";
+      switch(deliveryType) {
+        case "in-store":
+          details = "No delivery fee";
+          break;
+        case "grubhub":
+          details = "$5.00, Approximately 45 minutes";
+          break;
+        case "doordash":
+          details = "$4.50, Approximately 40 minutes";
+          break;
+        case "ubereats":
+          details = "$5.50, Approximately 50 minutes";
+          break;
+        default:
+          details = "";
+      }
+      document.getElementById('delivery-details').value = details;
+    });
+    
+    // Payment section: Show/hide card details based on payment method selection
+    document.getElementById('payment-method').addEventListener('change', function(){
+      const method = this.value;
+      const paymentInfo = document.getElementById('payment-info');
+      if(method === "credit" || method === "paypal") {
+        paymentInfo.style.display = "block";
+      } else {
+        paymentInfo.style.display = "none";
+      }
+    });
+    
+    // Initially hide payment info if cash is selected
+    document.getElementById('payment-info').style.display = "none";
+
+    // Form submit handling (dummy)
+    document.getElementById('checkout-form').addEventListener('submit', function(e){
+      e.preventDefault();
+      alert("Order placed successfully! An invoice will be generated.");
+    });
+    
+    document.getElementById('contact-form').addEventListener('submit', function(e){
+      e.preventDefault();
+      alert("Your message has been sent. Our customer service will contact you soon.");
+    });
+  </script>
+
+</body>
+</html>
