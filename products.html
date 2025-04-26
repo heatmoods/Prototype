@@ -314,8 +314,13 @@
             // Handle add to cart buttons
             document.querySelectorAll(".add-to-cart-btn").forEach(button => {
                 button.addEventListener("click", function() {
+                    const productCard = this.closest(".card");
                     const productId = this.getAttribute("data-product-id");
-                    addToCart(productId, 1);
+                    const productName = productCard.querySelector(".card-title").textContent;
+                    const productPrice = parseFloat(productCard.querySelector(".price").textContent.replace("$", ""));
+                    const productImage = productCard.querySelector("img").getAttribute("src");
+                    
+                    addToCart(productId, productName, productPrice, productImage, 1);
                     
                     // Show toast notification
                     const toast = new bootstrap.Toast(document.getElementById('cartToast'));
@@ -340,13 +345,57 @@
             });
         }
         
-        function addToCart(productId, quantity) {
-            // In a real app, this would make an API call
-            // For the demo, we'll just log to console
-            console.log(`Added product ID ${productId}, quantity ${quantity} to cart`);
+        function addToCart(productId, productName, productPrice, productImage, quantity) {
+            // create cart item object
+            const cartItem = {
+                id: productId,
+                name: productName,
+                price: productPrice,
+                image: productImage,
+                quantity: quantity
+            };
             
-            // For GitHub Pages, we can simulate a successful add
+            // get existing cart or initialize empty cart
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            // check if product already exists in cart
+            const existingItemIndex = cart.findIndex(item => item.id === productId);
+            
+            if (existingItemIndex > -1) {
+                // update quantity if product already in cart
+                cart[existingItemIndex].quantity += quantity;
+            } else {
+                // add new item to cart
+                cart.push(cartItem);
+            }
+            
+            // save updated cart to localStorage
+            localStorage.setItem('cart', JSON.stringify(cart));
+            
+            // update cart count in UI if we have a cart indicator
+            updateCartCount();
+            
             return true;
+        }
+        
+        function updateCartCount() {
+            const cartCountElement = document.querySelector('.cart-count');
+            if (cartCountElement) {
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                let totalItems = 0;
+                
+                cart.forEach(item => {
+                    totalItems += item.quantity;
+                });
+                
+                cartCountElement.textContent = totalItems;
+                
+                if (totalItems > 0) {
+                    cartCountElement.classList.remove('d-none');
+                } else {
+                    cartCountElement.classList.add('d-none');
+                }
+            }
         }
     </script>
 </body>

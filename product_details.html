@@ -118,18 +118,19 @@
                 <p class="mb-4">Fresh avocado smashed on toasted whole grain bread, topped with cherry tomatoes, microgreens, and a sprinkle of everything bagel seasoning. A perfect breakfast or snack option packed with healthy fats and fiber.</p>
                 
                 <div class="d-flex align-items-center mb-4">
-                    <span class="me-2">Quantity:</span>
+                    <label for="quantityInput" class="form-label">Quantity:</label>
                     <div class="input-group" style="width: 130px;">
-                        <button class="btn btn-outline-secondary" type="button" onclick="decrementQuantity(this)">-</button>
-                        <input type="number" class="form-control text-center" value="1" min="1" max="99">
-                        <button class="btn btn-outline-secondary" type="button" onclick="incrementQuantity(this)">+</button>
+                        <button class="btn btn-outline-secondary" type="button" id="decreaseQuantity">-</button>
+                        <input type="number" id="quantityInput" class="form-control text-center quantity-input" value="1" min="1" max="99">
+                        <button class="btn btn-outline-secondary" type="button" id="increaseQuantity">+</button>
                     </div>
                 </div>
                 
+                <div class="d-grid mb-4 product-detail" data-product-id="avocado-toast" data-product-name="Avocado Toast" data-product-price="9.99" data-product-image="assets/images/products/avocado-toast.jpg">
+                    <button class="btn btn-primary btn-lg add-to-cart-btn">Add to Cart</button>
+                </div>
+                
                 <div class="d-flex mb-4">
-                    <button type="button" class="btn btn-primary me-2 flex-grow-1" id="addToCartBtn">
-                        <i class="bi bi-cart-plus me-2"></i>Add to Cart
-                    </button>
                     <button type="button" class="btn btn-outline-danger" id="addToFavoritesBtn">
                         <i class="bi bi-heart"></i>
                     </button>
@@ -533,21 +534,14 @@
     </div>
     
     <!-- Toast Notification -->
-    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
-        <div id="cartToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
+        <div id="addToCartToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header bg-success text-white">
-                <i class="bi bi-check-circle-fill me-2"></i>
-                <strong class="me-auto">Added to Cart</strong>
+                <strong class="me-auto">Success</strong>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
             <div class="toast-body">
-                <div class="d-flex align-items-center">
-                    <img src="assets/images/products/avocado-toast.jpg" alt="Avocado Toast" class="me-2" style="width: 50px; height: 50px; object-fit: cover;">
-                    <div>
-                        <p class="mb-0">Avocado Toast added to your cart</p>
-                        <a href="cart.html" class="btn btn-sm btn-primary mt-2">View Cart</a>
-                    </div>
-                </div>
+                Item added to cart successfully!
             </div>
         </div>
     </div>
@@ -587,50 +581,77 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        function incrementQuantity(button) {
-            const input = button.parentElement.querySelector('input[type="number"]');
-            if (input.value < 99) {
-                input.value = parseInt(input.value) + 1;
-            }
-        }
-        
-        function decrementQuantity(button) {
-            const input = button.parentElement.querySelector('input[type="number"]');
-            if (input.value > 1) {
-                input.value = parseInt(input.value) - 1;
-            }
-        }
-        
         document.addEventListener('DOMContentLoaded', function() {
-            // Handle Add to Cart button
-            document.getElementById('addToCartBtn').addEventListener('click', function() {
-                // In a real app, we would add the item to the cart
-                // For the demo, just show the toast notification
-                const toast = new bootstrap.Toast(document.getElementById('cartToast'));
-                toast.show();
-            });
+            const quantityInput = document.getElementById('quantityInput');
+            const decreaseBtn = document.getElementById('decreaseQuantity');
+            const increaseBtn = document.getElementById('increaseQuantity');
+            const addToCartBtn = document.querySelector('.add-to-cart-btn');
+            const addToCartToast = document.getElementById('addToCartToast');
+            const favoriteBtn = document.getElementById('addToFavoritesBtn');
             
-            // Handle Add to Favorites button
-            document.getElementById('addToFavoritesBtn').addEventListener('click', function() {
-                const icon = this.querySelector('i');
-                if (icon.classList.contains('bi-heart')) {
-                    icon.classList.remove('bi-heart');
-                    icon.classList.add('bi-heart-fill');
-                    this.classList.remove('btn-outline-danger');
-                    this.classList.add('btn-danger');
-                } else {
-                    icon.classList.remove('bi-heart-fill');
-                    icon.classList.add('bi-heart');
-                    this.classList.remove('btn-danger');
-                    this.classList.add('btn-outline-danger');
+            decreaseBtn.addEventListener('click', function() {
+                let value = parseInt(quantityInput.value, 10);
+                if (value > 1) {
+                    quantityInput.value = value - 1;
                 }
             });
             
-            // Handle product image thumbnails
-            document.querySelectorAll('.img-thumbnail').forEach(function(thumb) {
-                thumb.addEventListener('click', function() {
-                    document.querySelector('.product-image').src = this.src;
-                });
+            increaseBtn.addEventListener('click', function() {
+                let value = parseInt(quantityInput.value, 10);
+                quantityInput.value = value + 1;
+            });
+            
+            // add to cart functionality
+            addToCartBtn.addEventListener('click', function() {
+                const productDetail = document.querySelector('.product-detail');
+                const productId = productDetail.dataset.productId;
+                const productName = productDetail.dataset.productName;
+                const productPrice = parseFloat(productDetail.dataset.productPrice);
+                const productImage = productDetail.dataset.productImage;
+                const quantity = parseInt(quantityInput.value, 10);
+                
+                // create cart item object
+                const cartItem = {
+                    id: productId,
+                    name: productName,
+                    price: productPrice,
+                    image: productImage,
+                    quantity: quantity
+                };
+                
+                // get existing cart or initialize empty cart
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                
+                // check if product already exists in cart
+                const existingItemIndex = cart.findIndex(item => item.id === productId);
+                
+                if (existingItemIndex > -1) {
+                    // update quantity if product already in cart
+                    cart[existingItemIndex].quantity += quantity;
+                } else {
+                    // add new item to cart
+                    cart.push(cartItem);
+                }
+                
+                // save updated cart to localStorage
+                localStorage.setItem('cart', JSON.stringify(cart));
+                
+                // show toast notification
+                const toast = new bootstrap.Toast(addToCartToast);
+                toast.show();
+            });
+            
+            // favorites functionality
+            favoriteBtn.addEventListener('click', function() {
+                if (this.innerHTML.includes('bi-heart')) {
+                    this.innerHTML = '<i class="bi bi-heart-fill"></i>';
+                    this.classList.remove('btn-outline-danger');
+                    this.classList.add('btn-danger');
+                } else {
+                    this.innerHTML = '<i class="bi bi-heart"></i>';
+                    this.classList.remove('btn-danger');
+                    this.classList.add('btn-outline-danger');
+                }
             });
         });
     </script>
